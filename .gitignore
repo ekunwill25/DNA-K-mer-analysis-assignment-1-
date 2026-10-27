@@ -3,3 +3,5 @@ local.settings.json
 __pycache__/
 *.pyc
 data/*.fasta
+# Local blob storage files
+__blobstorage__/
