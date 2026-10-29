@@ -1,0 +1,13 @@
+.venv
+.git
+.vscode
+tests
+data
+experiments
+*.fasta
+__blobstorage__
+__queuestorage__
+__azurite_db_*
+AzureConfig
+benchmark_results.csv
+local.settings.json

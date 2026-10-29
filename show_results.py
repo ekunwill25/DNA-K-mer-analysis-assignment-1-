@@ -1,6 +1,8 @@
+import os
+
 from azure.storage.blob import BlobServiceClient
 
-CONN = "UseDevelopmentStorage=true"   # local Azurite
+CONN = os.environ.get("STORAGE_CONNECTION_STRING", "UseDevelopmentStorage=true")
 
 container = BlobServiceClient.from_connection_string(CONN).get_container_client("final")
 if not container.exists():
