@@ -212,12 +212,12 @@ def analyse_chunk(msg: func.QueueMessage):
 @app.queue_trigger(arg_name="msg", queue_name="merge", connection=CONN)
 def merge_results(msg: func.QueueMessage):
     merge_start = time.time()
-    job = json.loads(msg.get_body().decode("utf-8"))
-    results = _container("results")
+    job = json.loads(msg.get_body().decode("utf-8")) 
+    results = _container("results") # container holding the partial results from analyse_chunk
 
-    partials = [json.loads(results.download_blob(f"{job['job_id']}/{i}.json").readall())
+    partials = [json.loads(results.download_blob(f"{job['job_id']}/{i}.json").readall()) # load each chunk's result
                 for i in range(job["total"])]
-    final = summarise(merge(partials), job["k"])
+    final = summarise(merge(partials), job["k"]) # final report, including top N k-mers
 
     metas = [p["meta"] for p in partials if "meta" in p]
     if metas:
@@ -246,7 +246,7 @@ def merge_results(msg: func.QueueMessage):
         "tag": job.get("tag", ""),
         "chunk_size": job["chunk_size"],
         "chunks": job["total"],
-        "elapsed_seconds": round(time.time() - job["started_at"], 2),
+        "elapsed_seconds": round(time.time() - job["started_at"], 2), # total time from first split to final merge
     })
 
     _container("final").upload_blob(f"{job['job_id']}.json",
